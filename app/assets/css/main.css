@@ -57,6 +57,7 @@ a {
 .page-shell {
   width: min(1160px, calc(100% - 40px));
   margin: 0 auto;
+  overflow-x: clip;
 }
 
 .site-header {
