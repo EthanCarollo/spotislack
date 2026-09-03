@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { createError, deleteCookie, getCookie, setCookie } from 'h3';
+import { createError, deleteCookie, getCookie, setCookie, type H3Event } from 'h3';
 import { getSessionSecret, isProduction } from './config';
 import { createUser, getUser, type UserRecord } from './store';
 import { signValue, verifySignedValue } from './security';
@@ -8,7 +8,7 @@ const SESSION_COOKIE = 'spotislack_session';
 const OAUTH_COOKIE_PREFIX = 'spotislack_oauth_';
 const OAUTH_TTL_SECONDS = 10 * 60;
 
-function cookieOptions(event: Parameters<typeof useRuntimeConfig>[0], maxAge?: number) {
+function cookieOptions(event: H3Event, maxAge?: number) {
   return {
     httpOnly: true,
     sameSite: 'lax' as const,
@@ -18,25 +18,25 @@ function cookieOptions(event: Parameters<typeof useRuntimeConfig>[0], maxAge?: n
   };
 }
 
-export function setSessionUser(event: Parameters<typeof useRuntimeConfig>[0], userId: string): void {
+export function setSessionUser(event: H3Event, userId: string): void {
   setCookie(event, SESSION_COOKIE, signValue(userId, getSessionSecret(event)), cookieOptions(event));
 }
 
-export function clearSessionUser(event: Parameters<typeof useRuntimeConfig>[0]): void {
+export function clearSessionUser(event: H3Event): void {
   deleteCookie(event, SESSION_COOKIE, cookieOptions(event));
 }
 
-export function getSessionUserId(event: Parameters<typeof useRuntimeConfig>[0]): string | null {
+export function getSessionUserId(event: H3Event): string | null {
   const value = verifySignedValue(getCookie(event, SESSION_COOKIE), getSessionSecret(event));
   return value || null;
 }
 
-export async function getSessionUser(event: Parameters<typeof useRuntimeConfig>[0]): Promise<UserRecord | null> {
+export async function getSessionUser(event: H3Event): Promise<UserRecord | null> {
   const userId = getSessionUserId(event);
   return userId ? getUser(event, userId) : null;
 }
 
-export async function requireSessionUser(event: Parameters<typeof useRuntimeConfig>[0]): Promise<UserRecord> {
+export async function requireSessionUser(event: H3Event): Promise<UserRecord> {
   const user = await getSessionUser(event);
   if (!user) {
     throw createError({ statusCode: 401, statusMessage: 'Session utilisateur introuvable.' });
@@ -45,7 +45,7 @@ export async function requireSessionUser(event: Parameters<typeof useRuntimeConf
 }
 
 export function createOAuthState(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   provider: 'spotify' | 'slack',
 ): string {
   const state = randomBytes(24).toString('base64url');
@@ -60,7 +60,7 @@ export function createOAuthState(
 }
 
 export function consumeOAuthState(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   provider: 'spotify' | 'slack',
   receivedState: string | undefined,
 ): boolean {
@@ -81,7 +81,7 @@ export function consumeOAuthState(
 }
 
 export async function getOrCreateSessionUser(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
 ): Promise<UserRecord> {
   const existingUser = await getSessionUser(event);
   if (existingUser) {

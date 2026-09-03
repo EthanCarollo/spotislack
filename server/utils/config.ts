@@ -1,6 +1,6 @@
-import { createError, getRequestURL } from 'h3';
+import { createError, getRequestURL, type H3Event } from 'h3';
 
-export function getSessionSecret(event: Parameters<typeof useRuntimeConfig>[0]): string {
+export function getSessionSecret(event: H3Event): string {
   const config = useRuntimeConfig(event);
   const secret = String(config.sessionSecret || '');
   if (!secret || secret.length < 32) {
@@ -12,7 +12,7 @@ export function getSessionSecret(event: Parameters<typeof useRuntimeConfig>[0]):
   return secret;
 }
 
-export function getAppUrl(event: Parameters<typeof useRuntimeConfig>[0]): string {
+export function getAppUrl(event: H3Event): string {
   const config = useRuntimeConfig(event);
   const configuredUrl = String(config.public.appUrl || '').trim();
   if (configuredUrl) {
@@ -24,7 +24,7 @@ export function getAppUrl(event: Parameters<typeof useRuntimeConfig>[0]): string
 }
 
 export function requireProviderConfig(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   provider: 'spotify' | 'slack',
 ): { clientId: string; clientSecret: string } {
   const config = useRuntimeConfig(event);

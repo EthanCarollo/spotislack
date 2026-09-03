@@ -1,6 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
+import type { H3Event } from 'h3';
 import type { TrackSnapshot, AppliedStatus } from '../../shared/types';
 import { getSessionSecret } from './config';
 import { decryptSecret, encryptSecret } from './security';
@@ -53,7 +54,7 @@ interface Database {
 
 const locks = new Map<string, Promise<void>>();
 
-function storagePath(event: Parameters<typeof useRuntimeConfig>[0]): string {
+function storagePath(event: H3Event): string {
   const config = useRuntimeConfig(event);
   const configuredPath = String(config.storagePath || '.data/spotislack.json');
   return isAbsolute(configuredPath) ? configuredPath : resolve(process.cwd(), configuredPath);
@@ -154,7 +155,7 @@ export function createUser(): UserRecord {
 }
 
 export async function getUser(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   userId: string,
 ): Promise<UserRecord | null> {
   const path = storagePath(event);
@@ -166,7 +167,7 @@ export async function getUser(
   return decodeUser(persistedUser, getSessionSecret(event));
 }
 
-export async function listUsers(event: Parameters<typeof useRuntimeConfig>[0]): Promise<UserRecord[]> {
+export async function listUsers(event: H3Event): Promise<UserRecord[]> {
   const path = storagePath(event);
   const database = await readDatabase(path);
   const secret = getSessionSecret(event);
@@ -174,7 +175,7 @@ export async function listUsers(event: Parameters<typeof useRuntimeConfig>[0]): 
 }
 
 export async function saveUser(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   user: UserRecord,
 ): Promise<void> {
   const path = storagePath(event);
@@ -187,7 +188,7 @@ export async function saveUser(
 }
 
 export async function deleteUser(
-  event: Parameters<typeof useRuntimeConfig>[0],
+  event: H3Event,
   userId: string,
 ): Promise<void> {
   const path = storagePath(event);
