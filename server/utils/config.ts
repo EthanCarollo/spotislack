@@ -16,7 +16,21 @@ export function getAppUrl(event: H3Event): string {
   const config = useRuntimeConfig(event);
   const configuredUrl = String(config.public.appUrl || '').trim();
   if (configuredUrl) {
-    return configuredUrl.replace(/\/$/, '');
+    const normalizedUrl = configuredUrl.replace(/\/$/, '');
+    if (isProduction() && !normalizedUrl.startsWith('https://')) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'NUXT_PUBLIC_APP_URL doit utiliser HTTPS en production.',
+      });
+    }
+    return normalizedUrl;
+  }
+
+  if (isProduction()) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'NUXT_PUBLIC_APP_URL est obligatoire en production.',
+    });
   }
 
   const requestUrl = getRequestURL(event);
