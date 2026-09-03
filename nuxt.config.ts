@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     cronSecret: '',
     storagePath: '.data/spotislack.json',
     public: {
-      appUrl: 'http://localhost:3000',
+      appUrl: '',
     },
   },
   app: {
