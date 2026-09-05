@@ -24,7 +24,11 @@ export default defineNuxtConfig({
           content: 'Synchronise automatiquement ton morceau Spotify avec ton statut Slack.',
         },
         { name: 'theme-color', content: '#0b0d12' },
+        { property: 'og:title', content: 'Spotislack — Ton Spotify dans Slack' },
+        { property: 'og:description', content: 'Synchronise automatiquement ton morceau Spotify avec ton statut Slack.' },
+        { property: 'og:image', content: '/brand/spotislack-banner.svg' },
       ],
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/brand/spotislack-logo.svg' }],
     },
   },
   typescript: {

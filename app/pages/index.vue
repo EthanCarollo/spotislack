@@ -173,11 +173,7 @@ onBeforeUnmount(() => {
   <div class="page-shell">
     <header class="site-header">
       <NuxtLink class="brand" to="/" aria-label="Spotislack accueil">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-            <path d="M7 5v14l11-7L7 5Z" fill="currentColor" stroke="none" />
-          </svg>
-        </span>
+        <img class="brand-mark" src="/brand/spotislack-logo.svg" alt="" width="30" height="30" />
         Spotislack
       </NuxtLink>
       <span class="header-note">Spotify dans Slack, sans distraction.</span>

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="600" viewBox="0 0 1600 600" role="img" aria-labelledby="title description">
+  <title id="title">Spotislack — Spotify dans Slack</title>
+  <desc id="description">Bannière de présentation de Spotislack, qui synchronise Spotify avec le statut Slack.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1600" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#080A0F"/>
+      <stop offset="0.55" stop-color="#11141E"/>
+      <stop offset="1" stop-color="#171326"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="80" y1="70" x2="440" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BFFA0"/>
+      <stop offset="0.5" stop-color="#1ED760"/>
+      <stop offset="1" stop-color="#12A84A"/>
+    </linearGradient>
+    <radialGradient id="greenGlow" cx="0" cy="0" r="1" gradientTransform="translate(1450 40) rotate(130) scale(580 720)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1ED760" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#1ED760" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="purpleGlow" cx="0" cy="0" r="1" gradientTransform="translate(1110 610) rotate(-110) scale(430 520)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#AA8CFF" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#AA8CFF" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#FFFFFF" stroke-opacity="0.035"/>
+    </pattern>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="600" fill="url(#background)"/>
+  <rect width="1600" height="600" fill="url(#grid)"/>
+  <rect width="1600" height="600" fill="url(#greenGlow)"/>
+  <rect width="1600" height="600" fill="url(#purpleGlow)"/>
+  <circle cx="1270" cy="98" r="8" fill="#1ED760" opacity="0.9"/>
+  <circle cx="1322" cy="98" r="8" fill="#AA8CFF" opacity="0.85"/>
+  <circle cx="1374" cy="98" r="8" fill="#FFFFFF" opacity="0.28"/>
+
+  <g transform="translate(106 114)">
+    <rect width="244" height="244" rx="66" fill="#0B0D12" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
+    <rect x="14" y="14" width="216" height="216" rx="55" fill="#202736"/>
+    <circle cx="122" cy="119" r="75" fill="#1ED760" opacity="0.24" filter="url(#blur)"/>
+    <circle cx="122" cy="119" r="67" fill="url(#accent)"/>
+    <path d="M104.5 74.5c-5.7-3.6-13-.5-13 6.2v75.1c0 6.7 7.3 9.8 13 6.2l59.7-37.5c5.4-3.4 5.4-11.1 0-14.5l-59.7-37.5Z" fill="#061008"/>
+    <path d="M66 190c18.8 11.4 40.4 17 60.8 17 26.5 0 51.7-8 70-21" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-opacity="0.22" stroke-width="4"/>
+  </g>
+
+  <path d="M415 236h78c32 0 42-44 74-44h44" fill="none" stroke="#1ED760" stroke-opacity="0.44" stroke-width="2" stroke-dasharray="5 9"/>
+  <circle cx="415" cy="236" r="5" fill="#1ED760"/>
+  <circle cx="611" cy="192" r="5" fill="#1ED760"/>
+
+  <text x="730" y="227" fill="#9AF0B3" font-family="Inter,Segoe UI,sans-serif" font-size="20" font-weight="700" letter-spacing="4">SPOTIFY × SLACK</text>
+  <text x="726" y="312" fill="#F4F7FB" font-family="Inter,Segoe UI,sans-serif" font-size="76" font-weight="760" letter-spacing="-4">Ton morceau.</text>
+  <text x="726" y="397" fill="#1ED760" font-family="Inter,Segoe UI,sans-serif" font-size="76" font-weight="760" letter-spacing="-4">Ton statut.</text>
+  <text x="730" y="453" fill="#9BA4B5" font-family="Inter,Segoe UI,sans-serif" font-size="22">La musique que tu écoutes, dans ton statut Slack.</text>
+
+  <g transform="translate(730 493)">
+    <rect width="132" height="38" rx="19" fill="#1ED760" fill-opacity="0.13" stroke="#1ED760" stroke-opacity="0.32"/>
+    <circle cx="23" cy="19" r="5" fill="#1ED760"/>
+    <text x="39" y="25" fill="#9AF0B3" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700">Spotify</text>
+    <rect x="146" width="102" height="38" rx="19" fill="#AA8CFF" fill-opacity="0.13" stroke="#AA8CFF" stroke-opacity="0.32"/>
+    <circle cx="169" cy="19" r="5" fill="#AA8CFF"/>
+    <text x="185" y="25" fill="#D5C9FF" font-family="Inter,Segoe UI,sans-serif" font-size="14" font-weight="700">Slack</text>
+  </g>
+</svg>

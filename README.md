@@ -1,6 +1,12 @@
+![Spotislack — Spotify dans Slack](./public/brand/spotislack-banner.svg)
+
 # Spotislack
 
 Spotislack synchronise le morceau Spotify en cours avec le statut personnalisé Slack de chaque utilisateur.
+
+> La musique que tu écoutes, dans ton statut.
+
+Documentation complète : [docs/README.md](docs/README.md).
 
 ## MVP inclus
 
