@@ -22,7 +22,7 @@ Nuxt 4 / Nitro
 - Le secret Spotify reste dans Nitro : il ne part jamais dans le navigateur.
 - Les tokens ne sont jamais renvoyés par une API client et sont chiffrés avant écriture sur disque.
 - Une session est un identifiant aléatoire signé par HMAC ; le cookie est `HttpOnly`, `SameSite=Lax` et `Secure` en production.
-- La clé de session et la clé de chiffrement des tokens sont séparées pour permettre une rotation indépendante sans rendre les tokens existants illisibles.
+- La clé de session et la clé de chiffrement des tokens sont séparées : une rotation de session n’affecte pas les tokens ; une rotation de chiffrement nécessite une migration de ré-encryption.
 - Le store fichier est adapté à un serveur Node unique et à la limite de cinq utilisateurs Spotify. Il doit être placé sur un volume persistant.
 - Un déploiement serverless multi-instance devra remplacer uniquement l’implémentation de `server/utils/store.ts` par un adaptateur Postgres/Supabase conservant le même modèle et le même chiffrement.
 
@@ -35,6 +35,7 @@ Nuxt 4 / Nitro
 | `GET /api/auth/slack` | Démarre Slack OAuth avec les user scopes |
 | `GET /api/auth/slack/callback` | Persiste le user token Slack et le workspace |
 | `GET /api/auth/status` | Renvoie uniquement l’état public de la session |
+| `GET /api/health` | Vérifie que le serveur Nuxt répond |
 | `POST /api/sync` | Synchronise l’utilisateur courant |
 | `POST /api/sync/toggle` | Met en pause ou reprend ; la reprise explicite peut reprendre la main sur Slack |
 | `GET /api/cron/sync` | Synchronise tous les utilisateurs actifs après vérification du bearer secret |
