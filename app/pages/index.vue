@@ -300,7 +300,7 @@ onBeforeUnmount(() => {
       <div v-if="statusError" class="setup-panel">
         <h2>Configuration serveur nécessaire</h2>
         <p>
-          Copie <code>.env.example</code> vers <code>.env</code>, renseigne les identifiants Spotify/Slack et un secret de session d’au moins 32 caractères, puis relance le serveur Nuxt.
+          Copie <code>.env.example</code> vers <code>.env</code>, renseigne les identifiants Spotify/Slack et les trois secrets d’au moins 32 caractères, puis relance le serveur Nuxt.
         </p>
       </div>
 

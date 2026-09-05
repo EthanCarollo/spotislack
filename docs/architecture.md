@@ -22,6 +22,7 @@ Nuxt 4 / Nitro
 - Le secret Spotify reste dans Nitro : il ne part jamais dans le navigateur.
 - Les tokens ne sont jamais renvoyés par une API client et sont chiffrés avant écriture sur disque.
 - Une session est un identifiant aléatoire signé par HMAC ; le cookie est `HttpOnly`, `SameSite=Lax` et `Secure` en production.
+- La clé de session et la clé de chiffrement des tokens sont séparées pour permettre une rotation indépendante sans rendre les tokens existants illisibles.
 - Le store fichier est adapté à un serveur Node unique et à la limite de cinq utilisateurs Spotify. Il doit être placé sur un volume persistant.
 - Un déploiement serverless multi-instance devra remplacer uniquement l’implémentation de `server/utils/store.ts` par un adaptateur Postgres/Supabase conservant le même modèle et le même chiffrement.
 
@@ -70,7 +71,7 @@ Slack :
 
 1. Déployer le build Node Nuxt (`npm run build`, puis `node .output/server/index.mjs`).
 2. Définir `NUXT_PUBLIC_APP_URL` avec l’URL HTTPS publique exacte.
-3. Définir les quatre identifiants fournisseur, les deux secrets aléatoires et `NUXT_STORAGE_PATH` sur un volume persistant.
+3. Définir les quatre identifiants fournisseur, les trois secrets aléatoires et `NUXT_STORAGE_PATH` sur un volume persistant.
 4. Reporter les callbacks HTTPS exacts dans les dashboards Spotify et Slack.
 5. Ajouter les amis Spotify dans Users Management jusqu’à la limite autorisée par l’app en Development Mode.
 6. Planifier `/api/cron/sync` toutes les 60 secondes avec `Authorization: Bearer <NUXT_CRON_SECRET>`.

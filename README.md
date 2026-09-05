@@ -20,7 +20,7 @@ Copy-Item .env.example .env
 npm run dev
 ```
 
-Génère deux secrets longs et remplis-les dans `.env`. Pour générer une valeur rapidement :
+Génère trois secrets longs et remplis-les dans `.env` (`NUXT_SESSION_SECRET`, `NUXT_TOKEN_ENCRYPTION_KEY` et `NUXT_CRON_SECRET`). Pour générer une valeur rapidement :
 
 ```bash
 node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"

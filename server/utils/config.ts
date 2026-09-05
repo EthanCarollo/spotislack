@@ -12,6 +12,18 @@ export function getSessionSecret(event: H3Event): string {
   return secret;
 }
 
+export function getTokenEncryptionKey(event: H3Event): string {
+  const config = useRuntimeConfig(event);
+  const key = String(config.tokenEncryptionKey || '');
+  if (!key || key.length < 32) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'NUXT_TOKEN_ENCRYPTION_KEY doit contenir au moins 32 caractères.',
+    });
+  }
+  return key;
+}
+
 export function getAppUrl(event: H3Event): string {
   const config = useRuntimeConfig(event);
   const configuredUrl = String(config.public.appUrl || '').trim();

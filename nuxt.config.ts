@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     slackClientId: '',
     slackClientSecret: '',
     sessionSecret: '',
+    tokenEncryptionKey: '',
     cronSecret: '',
     storagePath: '.data/spotislack.json',
     public: {

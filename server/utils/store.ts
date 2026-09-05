@@ -3,7 +3,7 @@ import { dirname, isAbsolute, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import type { H3Event } from 'h3';
 import type { TrackSnapshot, AppliedStatus } from '../../shared/types';
-import { getSessionSecret } from './config';
+import { getTokenEncryptionKey } from './config';
 import { decryptSecret, encryptSecret } from './security';
 
 export interface SpotifyConnection {
@@ -164,13 +164,13 @@ export async function getUser(
   if (!persistedUser) {
     return null;
   }
-  return decodeUser(persistedUser, getSessionSecret(event));
+  return decodeUser(persistedUser, getTokenEncryptionKey(event));
 }
 
 export async function listUsers(event: H3Event): Promise<UserRecord[]> {
   const path = storagePath(event);
   const database = await readDatabase(path);
-  const secret = getSessionSecret(event);
+  const secret = getTokenEncryptionKey(event);
   return Object.values(database.users).map((user) => decodeUser(user, secret));
 }
 
@@ -179,7 +179,7 @@ export async function saveUser(
   user: UserRecord,
 ): Promise<void> {
   const path = storagePath(event);
-  const encodedUser = encodeUser(user, getSessionSecret(event));
+  const encodedUser = encodeUser(user, getTokenEncryptionKey(event));
   await withDatabaseLock(path, async () => {
     const database = await readDatabase(path);
     database.users[user.id] = encodedUser;
