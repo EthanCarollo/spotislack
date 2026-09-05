@@ -29,13 +29,22 @@ export function getAppUrl(event: H3Event): string {
   const configuredUrl = String(config.public.appUrl || '').trim();
   if (configuredUrl) {
     const normalizedUrl = configuredUrl.replace(/\/$/, '');
-    if (isProduction() && !normalizedUrl.startsWith('https://')) {
+    let parsedUrl: URL;
+    try {
+      parsedUrl = new URL(normalizedUrl);
+    } catch {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'NUXT_PUBLIC_APP_URL doit être une URL valide.',
+      });
+    }
+    if (isProduction() && parsedUrl.protocol !== 'https:') {
       throw createError({
         statusCode: 500,
         statusMessage: 'NUXT_PUBLIC_APP_URL doit utiliser HTTPS en production.',
       });
     }
-    return normalizedUrl;
+    return parsedUrl.toString().replace(/\/$/, '');
   }
 
   if (isProduction()) {

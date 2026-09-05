@@ -1,6 +1,7 @@
 import type { H3Event } from 'h3';
 import { requireProviderConfig } from './config';
 import { IntegrationError } from './errors';
+import { providerFetch } from './provider-fetch';
 
 const SLACK_AUTHORIZE_URL = 'https://slack.com/oauth/v2/authorize';
 const SLACK_API_URL = 'https://slack.com/api';
@@ -34,7 +35,7 @@ export async function exchangeSlackCode(
   redirectUri: string,
 ): Promise<SlackOAuthResponse> {
   const { clientId, clientSecret } = requireProviderConfig(event, 'slack');
-  const response = await fetch(`${SLACK_API_URL}/oauth.v2.access`, {
+  const response = await providerFetch(`${SLACK_API_URL}/oauth.v2.access`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
@@ -56,7 +57,7 @@ async function slackApi<T>(
   accessToken: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const response = await fetch(`${SLACK_API_URL}/${method}`, {
+  const response = await providerFetch(`${SLACK_API_URL}/${method}`, {
     ...options,
     headers: {
       Authorization: `Bearer ${accessToken}`,

@@ -2,6 +2,7 @@ import type { H3Event } from 'h3';
 import type { TrackSnapshot } from '../../shared/types';
 import { requireProviderConfig } from './config';
 import { IntegrationError } from './errors';
+import { providerFetch } from './provider-fetch';
 import { saveUser, type UserRecord } from './store';
 
 const SPOTIFY_AUTHORIZE_URL = 'https://accounts.spotify.com/authorize';
@@ -76,7 +77,7 @@ export async function exchangeSpotifyCode(
 ): Promise<SpotifyTokenResponse> {
   const { clientId, clientSecret } = requireProviderConfig(event, 'spotify');
   const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-  const response = await fetch(SPOTIFY_TOKEN_URL, {
+  const response = await providerFetch(SPOTIFY_TOKEN_URL, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${credentials}`,
@@ -108,7 +109,7 @@ async function refreshSpotifyToken(
 
   const { clientId, clientSecret } = requireProviderConfig(event, 'spotify');
   const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-  const response = await fetch(SPOTIFY_TOKEN_URL, {
+  const response = await providerFetch(SPOTIFY_TOKEN_URL, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${credentials}`,
@@ -199,13 +200,13 @@ export async function getCurrentlyPlaying(
   user: UserRecord,
 ): Promise<TrackSnapshot | null> {
   let accessToken = await getSpotifyAccessToken(event, user);
-  let response = await fetch(`${SPOTIFY_API_URL}/me/player/currently-playing?additional_types=track,episode`, {
+  let response = await providerFetch(`${SPOTIFY_API_URL}/me/player/currently-playing?additional_types=track,episode`, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (response.status === 401) {
     accessToken = await refreshSpotifyToken(event, user);
-    response = await fetch(`${SPOTIFY_API_URL}/me/player/currently-playing?additional_types=track,episode`, {
+    response = await providerFetch(`${SPOTIFY_API_URL}/me/player/currently-playing?additional_types=track,episode`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   }
